@@ -1,0 +1,132 @@
+* Configuration
+
+this configuration file is inspired by [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua's Emacs configuration]].
+
+** Personal information
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq user-full-name "David Becvarik"
+      user-mail-address "ldj@l-d-j.org")
+#+END_SRC
+
+** Emacs initialization
+*** Setup proper theme
+#+BEGIN_SRC emacs-lisp :tangle yes
+(load-theme 'misterioso)
+#+END_SRC
+
+*** Add package sources
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-initialize)
+(unless (assoc-default "melpa" package-archives)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;  (package-refresh-contents)
+)
+#+END_SRC
+
+Use =M-x package-refresh-contents= to reload the list of packages
+after adding these for the first time.
+
+*** Setup use package
+
+I use use-package for package management.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
+(setq use-package-verbose t)
+(setq use-package-always-ensure t)
+(require 'use-package)
+(use-package auto-compile
+  :config (auto-compile-on-load-mode))
+(setq load-prefer-newer t)
+#+END_SRC
+
+*** Helm - interactive completion
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package helm
+  :diminish helm-mode
+  :init
+  (progn
+    (require 'helm-config)
+    (setq helm-candidate-number-limit 100)
+    ;; From https://gist.github.com/antifuchs/9238468
+    (setq helm-idle-delay 0.0 ; update fast sources immediately (doesn't).
+          helm-input-idle-delay 0.01  ; this actually updates things
+                                        ; reeeelatively quickly.
+          helm-yas-display-key-on-candidate t
+          helm-quick-update t
+          helm-M-x-requires-pattern nil
+          helm-ff-skip-boring-files t)
+    (helm-mode))
+  :bind (("C-c h" . helm-mini)
+         ("C-h a" . helm-apropos)
+         ("C-x C-b" . helm-buffers-list)
+         ("C-x b" . helm-buffers-list)
+         ("M-y" . helm-show-kill-ring)
+         ("M-x" . helm-M-x)
+         ("C-x c o" . helm-occur)
+         ("C-x c s" . helm-swoop)
+         ("C-x c y" . helm-yas-complete)
+         ("C-x c Y" . helm-yas-create-snippet-on-region)
+         ("C-x c b" . my/helm-do-grep-book-notes)
+         ("C-x c SPC" . helm-all-mark-rings)))
+(ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+#+END_SRC
+
+*** Ace-jump
+great cursor navigation
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package ace-jump-mode
+  :bind ("C-." . ace-jump-mode))
+#+END_SRC
+
+*** projectile
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package projectile
+  :init (projectile-global-mode))
+#+END_SRC
+
+** org mode
+
+*** Custom Todo Keywords
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq org-todo-keywords
+  '((sequence "NEXT(n)" "TODO(t)" "WAIT(w)" "SOMEDAY(s)" "PROJECT(p)" "|" "DONE(d)" "CANCELED(c)")))
+#+END_SRC
+   
+*** epresent
+very interesting/clean way of doing presentation. Like zen mode :)
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package epresent)
+#+END_SRC
+
+
+** Development
+*** Python
+For elpy I need following python modules
+# Either of these
+pip install rope
+pip install jedi
+# flake8 for code checks
+pip install flake8
+# importmagic for automatic imports
+pip install importmagic
+# and autopep8 for automatic PEP8 formatting
+pip install autopep8
+# and yapf for code formatting
+pip install yapf
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package elpy
+  :init (elpy-enable))
+#+END_SRC
+
+*** Magit
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package magit)
+#+END_SRC
+
+
