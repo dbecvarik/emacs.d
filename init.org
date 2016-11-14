@@ -125,8 +125,22 @@ pip install yapf
 #+END_SRC
 
 *** Magit
+I use magit for git manipulation. And I made magit to take fullscreen to do my git stuff. After ending it restores previous windows config.
 #+BEGIN_SRC emacs-lisp :tangle yes
-(use-package magit)
+(use-package magit
+  :bind (("C-c g" . magit-status))
+  :config
+  ;; full screen magit-status
+  (defadvice magit-status (around magit-fullscreen activate)
+  (window-configuration-to-register :magit-fullscreen)
+  ad-do-it
+  (delete-other-windows))
+
+  (defun magit-quit-session ()
+  "Restores the previous window configuration and kills the magit buffer"
+  (interactive)
+  (kill-buffer)
+  (jump-to-register :magit-fullscreen)))
 #+END_SRC
 
 
