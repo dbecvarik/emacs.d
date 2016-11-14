@@ -11,9 +11,9 @@
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+(require 'use-package)
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
-(require 'use-package)
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
@@ -52,6 +52,14 @@
 
 (use-package projectile
   :init (projectile-global-mode))
+
+(use-package helm-projectile
+  :ensure    helm-projectile
+  :init
+  (helm-projectile-on)
+  :config
+    (progn
+      (setq projectile-completion-system 'helm)))
 
 (setq org-todo-keywords
   '((sequence "NEXT(n)" "TODO(t)" "WAIT(w)" "SOMEDAY(s)" "PROJECT(p)" "|" "DONE(d)" "CANCELED(c)")))
