@@ -111,7 +111,14 @@ very interesting/clean way of doing presentation. Like zen mode :)
 (use-package epresent)
 #+END_SRC
 
-
+** Misc
+*** Key suggestion
+I use which key to guide me when my key chords struggles
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package which-key
+  :init (which-key-mode)
+  :config (setq which-key-popup-type 'side-window))
+#+END_SRC
 ** Development
 *** Python
 For elpy I need following python modules

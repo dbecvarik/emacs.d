@@ -66,6 +66,10 @@
 
 (use-package epresent)
 
+(use-package which-key
+  :init (which-key-mode)
+  :config (setq which-key-popup-type 'side-window))
+
 (use-package elpy
   :init (elpy-enable))
 
