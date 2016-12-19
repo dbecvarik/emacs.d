@@ -1,6 +1,8 @@
 (setq user-full-name "David Becvarik"
       user-mail-address "ldj@l-d-j.org")
 
+(setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/bin"))
+
 (load-theme 'misterioso)
 
 (package-initialize)
@@ -163,7 +165,25 @@ of the code block."
   :config (setq which-key-popup-type 'side-window))
 
 (use-package elpy
-  :init (elpy-enable))
+  :init (elpy-enable)
+  :config
+    (setq elpy-rpc-backend "rope"
+        elpy-modules '(elpy-module-sane-defaults
+                       elpy-module-company
+                       elpy-module-eldoc
+                       elpy-module-flymake
+                       elpy-module-highlight-indentation
+                       elpy-module-yasnippet)
+        elpy-company-post-completion-function 'elpy-company-post-complete-parens
+        ))
+
+(use-package virtualenvwrapper
+  :ensure t
+  :init
+  (progn
+    (setq eshell-modify-global-environment t)
+    (setq venv-location "~/.virtualenvs")
+    (venv-initialize-eshell)))
 
 (use-package magit
   :bind (("C-c g" . magit-status))

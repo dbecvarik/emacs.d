@@ -9,6 +9,11 @@ this configuration file is inspired by [[http://pages.sachachua.com/.emacs.d/Sac
 #+END_SRC
 
 ** Emacs initialization
+*** adjust path
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/bin"))
+#+END_SRC
 *** Setup proper theme
 #+BEGIN_SRC emacs-lisp :tangle yes
 (load-theme 'misterioso)
@@ -240,7 +245,36 @@ pip install yapf
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (use-package elpy
-  :init (elpy-enable))
+  :init (elpy-enable)
+  :config
+    (setq elpy-rpc-backend "rope"
+        elpy-modules '(elpy-module-sane-defaults
+                       elpy-module-company
+                       elpy-module-eldoc
+                       elpy-module-flymake
+                       elpy-module-highlight-indentation
+                       elpy-module-yasnippet)
+        elpy-company-post-completion-function 'elpy-company-post-complete-parens
+        ))
+#+END_SRC
+
+I like to have all of my virtualenvs in my home and having them available in shell sessions. I can easily check if I'm in by:
+
+#+BEGIN_SRC python
+import sys
+print sys.prefix # this should point to venv dir
+
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package virtualenvwrapper
+  :ensure t
+  :init
+  (progn
+    (setq eshell-modify-global-environment t)
+    (setq venv-location "~/.virtualenvs")
+    (venv-initialize-eshell)))
+
 #+END_SRC
 
 *** Magit
