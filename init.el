@@ -1,3 +1,4 @@
+
 (setq user-full-name "David Becvarik"
       user-mail-address "ldj@l-d-j.org")
 
@@ -8,7 +9,7 @@
 (package-initialize)
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;  (package-refresh-contents)
+  (package-refresh-contents)
 )
 
 (unless (package-installed-p 'use-package)
@@ -48,6 +49,10 @@
          ("C-x c b" . my/helm-do-grep-book-notes)
          ("C-x c SPC" . helm-all-mark-rings)))
 (ido-mode -1) ;; Turn off ido mode in case I enabled it accidentally
+(use-package helm-ag
+   :config
+   (setq
+     helm-ag-insert-at-point 'word))
 
 (use-package ace-jump-mode
   :bind ("C-." . ace-jump-mode))
@@ -63,13 +68,20 @@
     (progn
       (setq projectile-completion-system 'helm)))
 
+(use-package org
+  :config
+   (progn
+     (setq org-src-fontify-natively t)))
+
 (setq org-todo-keywords
   '((sequence "NEXT(n)" "TODO(t)" "WAIT(w)" "SOMEDAY(s)" "PROJECT(p)" "|" "DONE(d)" "CANCELED(c)")))
 
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 
 (org-babel-do-load-languages 'org-babel-load-languages
-'((shell . t)))
+'( (sh . t)
+   (emacs-lisp . t)
+))
 
 (require 'org-id)
 
@@ -158,8 +170,6 @@ of the code block."
 
 (add-hook 'org-mode-hook (lambda () (local-set-key (kbd "C-c c") 'org-babel-async-execute:sh)))
 
-(use-package epresent)
-
 (use-package which-key
   :init (which-key-mode)
   :config (setq which-key-popup-type 'side-window))
@@ -184,6 +194,23 @@ of the code block."
     (setq eshell-modify-global-environment t)
     (setq venv-location "~/.virtualenvs")
     (venv-initialize-eshell)))
+
+(require 'pymacs)
+ (pymacs-load "ropemacs" "rope-")
+
+(defun hs-enable-and-toggle ()
+  (interactive)
+  (hs-minor-mode 1)
+  (hs-toggle-hiding))
+(defun hs-enable-and-hideshow-all (&optional arg)
+  "Hide all blocks. If prefix argument is given, show all blocks."
+  (interactive "P")
+  (hs-minor-mode 1)
+  (if arg
+      (hs-show-all)
+      (hs-hide-all)))
+(global-set-key (kbd "C-c C-h") 'hs-enable-and-toggle)
+(global-set-key (kbd "C-c C-j") 'hs-enable-and-hideshow-all)
 
 (use-package magit
   :bind (("C-c g" . magit-status))
