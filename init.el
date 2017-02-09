@@ -174,6 +174,13 @@ of the code block."
   :init (which-key-mode)
   :config (setq which-key-popup-type 'side-window))
 
+(use-package perspeen
+  :ensure t
+  :init
+  (setq perspeen-use-tab t)
+  :config
+  (perspeen-mode))
+
 (use-package elpy
   :init (elpy-enable)
   :config
