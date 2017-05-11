@@ -299,9 +299,6 @@ print sys.prefix # this should point to venv dir
     (setq venv-location "~/.virtualenvs")
     (venv-initialize-eshell)))
 
-(require 'pymacs)
- (pymacs-load "ropemacs" "rope-")
-
 (defun hs-enable-and-toggle ()
   (interactive)
   (hs-minor-mode 1)

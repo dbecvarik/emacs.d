@@ -202,9 +202,6 @@ of the code block."
     (setq venv-location "~/.virtualenvs")
     (venv-initialize-eshell)))
 
-(require 'pymacs)
- (pymacs-load "ropemacs" "rope-")
-
 (defun hs-enable-and-toggle ()
   (interactive)
   (hs-minor-mode 1)
