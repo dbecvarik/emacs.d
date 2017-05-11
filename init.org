@@ -41,6 +41,12 @@ I use use-package for package management.
 (setq load-prefer-newer t)
 #+END_SRC
 
+*** Setup proper theme
+#+BEGIN_SRC emacs-lisp :tangle yes
+(use-package solarized-theme
+   :config
+     (load-theme 'solarized-light t))
+#+END_SRC
 *** Helm - interactive completion
 
 #+BEGIN_SRC emacs-lisp :tangle yes

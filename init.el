@@ -4,8 +4,6 @@
 
 (setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/bin"))
 
-(load-theme 'misterioso)
-
 (package-initialize)
 (unless (assoc-default "melpa" package-archives)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -20,6 +18,10 @@
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
+
+(use-package solarized-theme
+   :config
+     (load-theme 'solarized-light t))
 
 (use-package helm
   :diminish helm-mode
