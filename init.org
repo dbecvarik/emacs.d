@@ -9,16 +9,11 @@ this configuration file is inspired by [[http://pages.sachachua.com/.emacs.d/Sac
 #+END_SRC
 
 ** Emacs initialization
-*** adjust path
+*** Adjust path
 
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setenv "PATH" (concat (getenv "PATH") ":/home/user/.local/bin"))
 #+END_SRC
-*** Setup proper theme
-#+BEGIN_SRC emacs-lisp :tangle yes
-(load-theme 'misterioso)
-#+END_SRC
-
 *** Add package sources
 #+BEGIN_SRC emacs-lisp :tangle yes
 (package-initialize)
