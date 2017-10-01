@@ -113,7 +113,18 @@
                           'magit-insert-unpulled-from-upstream)
   (magit-add-section-hook 'magit-status-sections-hook
                           'magit-insert-submodules
-                          'magit-insert-unpulled-from-upstream))
+                          'magit-insert-unpulled-from-upstream)
+  ;; full screen magit-status
+  (defadvice magit-status (around magit-fullscreen activate)
+  (window-configuration-to-register :magit-fullscreen)
+  ad-do-it
+  (delete-other-windows))
+
+  (defun magit-quit-session ()
+  "Restores the previous window configuration and kills the magit buffer"
+  (interactive)
+  (kill-buffer)
+  (jump-to-register :magit-fullscreen)))
 
 (use-package man
   :defer t
@@ -151,6 +162,33 @@
   (add-to-list 'tramp-default-proxies-alist '("localhost" nil nil))
   (add-to-list 'tramp-default-proxies-alist
                (list (regexp-quote (system-name)) nil nil)))
+
+(use-package multiple-cursors)
+
+(use-package hydra)
+
+(use-package ivy
+  :init (ivy-mode)
+  :bind (("C-s" . swiper)
+         ("M-x" . counsel-M-x)))
+
+(use-package elpy
+  :init (elpy-enable)
+  :config (setq elpy-rpc-backend "rope"
+                elpy-modules '(elpy-module-sane-defaults
+                               elpy-module-company
+                               elpy-module-eldoc
+                               elpy-module-flymake
+                               elpy-module-highlight-indentation
+                               elpy-module-yasnippet)))
+
+
+(use-package counsel-projectile
+  :init (counsel-projectile-on))
+
+(use-package projectile
+  :init (projectile-mode)
+  :config (setq projectile-enable-caching t))
 
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
