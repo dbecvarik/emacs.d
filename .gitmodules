@@ -33,6 +33,9 @@
 [submodule "epkg"]
 	path = lib/epkg
 	url = git@github.com:emacscollective/epkg.git
+[submodule "faceup"]
+	path = lib/faceup
+	url = git@github.com:Lindydancer/faceup.git
 [submodule "finalize"]
 	path = lib/finalize
 	url = git@github.com:skeeto/elisp-finalize.git
@@ -70,6 +73,9 @@
 [submodule "pyvenv"]
 	path = lib/pyvenv
 	url = git@github.com:jorgenschaefer/pyvenv.git
+[submodule "racket-mode"]
+	path = lib/racket-mode
+	url = git@github.com:greghendershott/racket-mode.git
 [submodule "s"]
 	path = lib/s
 	url = git@github.com:magnars/s.el.git
