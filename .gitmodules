@@ -20,6 +20,9 @@
 	path = lib/dash
 	url = git@github.com:magnars/dash.el.git
 	no-makeinfo = dash-template.texi
+[submodule "demo-it"]
+	path = lib/demo-it
+	url = git@github.com:howardabrams/demo-it.git
 [submodule "diff-hl"]
 	path = lib/diff-hl
 	url = git@github.com:dgutov/diff-hl.git
@@ -45,6 +48,9 @@
 [submodule "highlight-indentation"]
 	path = lib/highlight-indentation
 	url = git@github.com:antonj/Highlight-Indentation-for-Emacs.git
+[submodule "htmlize"]
+	path = lib/htmlize
+	url = git@github.com:hniksic/emacs-htmlize.git
 [submodule "hydra"]
 	path = lib/hydra
 	url = git@github.com:abo-abo/hydra.git
