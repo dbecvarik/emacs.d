@@ -45,6 +45,9 @@
 [submodule "find-file-in-project"]
 	path = lib/find-file-in-project
 	url = git@github.com:technomancy/find-file-in-project.git
+[submodule "ghub"]
+	path = lib/ghub
+	url = git@github.com:magit/ghub.git
 [submodule "git-modes"]
 	path = lib/git-modes
 	url = git@github.com:magit/git-modes.git
