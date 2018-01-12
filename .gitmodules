@@ -73,9 +73,6 @@
 [submodule "multiple-cursors"]
 	path = lib/multiple-cursors
 	url = git@github.com:magnars/multiple-cursors.el.git
-[submodule "org"]
-	path = lib/org
-	url = git://orgmode.org/org-mode.git
 [submodule "ox-reveal"]
 	path = lib/ox-reveal
 	url = git@github.com:yjwen/org-reveal.git

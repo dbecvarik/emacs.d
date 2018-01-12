@@ -190,9 +190,6 @@
                                elpy-module-yasnippet)))
 
 
-(use-package org)
-(use-package org-tempo)
-
 (use-package counsel-projectile
   :config (setq counsel-projectile-mode t))
 
