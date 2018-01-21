@@ -195,7 +195,7 @@
 
 (use-package projectile
   :init (projectile-mode)
-  :config (setq projectile-enable-caching t))
+  :config (setq projectile-git-submodule-command ""))
 
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
