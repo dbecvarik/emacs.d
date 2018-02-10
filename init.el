@@ -181,7 +181,7 @@
 
 (use-package elpy
   :init (elpy-enable)
-  :config (setq elpy-rpc-backend "rope"
+  :config (setq elpy-rpc-backend "jedi"
                 elpy-modules '(elpy-module-sane-defaults
                                elpy-module-company
                                elpy-module-eldoc
