@@ -193,6 +193,9 @@
 (use-package counsel-projectile
   :config (setq counsel-projectile-mode t))
 
+(use-package company
+  :config (setq company-minimum-prefix-length 1))
+
 (use-package projectile
   :init (projectile-mode)
   :config (setq projectile-git-submodule-command ""))
