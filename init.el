@@ -187,7 +187,8 @@
                                elpy-module-eldoc
                                elpy-module-flymake
                                elpy-module-highlight-indentation
-                               elpy-module-yasnippet)))
+                               elpy-module-yasnippet))
+  (electric-pair-mode))
 
 
 (use-package counsel-projectile
