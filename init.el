@@ -20,29 +20,21 @@
   (tool-bar-mode 0)
   (menu-bar-mode 0))
 
-(progn ;    `borg'
-  (add-to-list 'load-path (expand-file-name "lib/borg" user-emacs-directory))
-  (require  'borg)
-  (borg-initialize))
+(let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
+      (bootstrap-version 3))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(progn ;    `use-package'
-  (require  'use-package)
-  (setq use-package-verbose t))
-
-(use-package auto-compile
-  :demand t
-  :config
-  (auto-compile-on-load-mode)
-  (auto-compile-on-save-mode)
-  (setq auto-compile-display-buffer               nil)
-  (setq auto-compile-mode-line-counter            t)
-  (setq auto-compile-source-recreate-deletes-dest t)
-  (setq auto-compile-toggle-deletes-nonlib-dest   t)
-  (setq auto-compile-update-autoloads             t)
-  (add-hook 'auto-compile-inhibit-compile-hook
-            'auto-compile-inhibit-compile-detached-git-head))
+(straight-use-package 'use-package)
 
 (use-package solarized-theme
+   :straight t
    :config
      (load-theme 'solarized-light t))
 
@@ -86,6 +78,7 @@
   :config (dash-enable-font-lock))
 
 (use-package diff-hl
+  :straight t
   :config
   (setq diff-hl-draw-borders nil)
   (global-diff-hl-mode)
@@ -102,18 +95,9 @@
   :defer t
   :config (temp-buffer-resize-mode))
 
-(progn ;    `isearch'
-  (setq isearch-allow-scroll t))
-
-(use-package lisp-mode
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
-  (add-hook 'emacs-lisp-mode-hook 'reveal-mode)
-  (defun indent-spaces-mode ()
-    (setq indent-tabs-mode nil))
-  (add-hook 'lisp-interaction-mode-hook #'indent-spaces-mode))
 
 (use-package magit
+  :straight t
   :defer t
   :bind (("C-x g"   . magit-status)
          ("C-x M-g" . magit-dispatch-popup))
@@ -134,9 +118,6 @@
     (kill-buffer)
     (jump-to-register :magit-fullscreen)))
 
-(use-package man
-  :defer t
-  :config (setq Man-width 80))
 
 (use-package paren
   :config (show-paren-mode))
@@ -170,16 +151,14 @@
   (add-to-list 'tramp-default-proxies-alist
                (list (regexp-quote (system-name)) nil nil)))
 
-(use-package multiple-cursors)
-
-(use-package hydra)
-
 (use-package ivy
+  :straight t
   :init (ivy-mode)
   :bind (("C-s" . swiper)
          ("M-x" . counsel-M-x)))
 
 (use-package elpy
+  :straight t
   :init (elpy-enable)
   :config (setq elpy-rpc-backend "jedi"
                 elpy-modules '(elpy-module-sane-defaults
@@ -192,12 +171,15 @@
 
 
 (use-package counsel-projectile
+  :straight t
   :config (setq counsel-projectile-mode t))
 
 (use-package company
+  :straight t
   :config (setq company-minimum-prefix-length 1))
 
 (use-package projectile
+  :straight t
   :init (projectile-mode)
   :config (setq projectile-git-submodule-command ""))
 
