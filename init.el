@@ -207,6 +207,33 @@
     (when (file-exists-p file)
       (load file))))
 
+;; golang
+(use-package company-go
+  :straight t
+  :config (setq company-go-show-annotation t))
+
+
+(use-package go-mode
+  :straight t
+  :config (progn
+            (defun go-mode-hook ()
+            (local-set-key (kbd "M-.") 'godef-jump)
+              ;; company-go
+              (set (make-local-variable 'company-backends)
+                   '(company-go))
+              (company-mode)
+              ;; use goimports before saving
+              (setq gofmt-command "goimports")
+              (add-hook 'before-save-hook 'gofmt-before-save))
+            (add-hook 'go-mode-hook 'go-mode-hook)))
+
+(use-package go-projectile
+  :straight t)
+
+(use-package flycheck
+  :straight t
+  :commands (flycheck-mod global-flycheck-mode))
+
 ;; Local Variables:
 ;; indent-tabs-mode: nil
 ;; End:
