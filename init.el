@@ -186,7 +186,8 @@
 (use-package projectile
   :straight t
   :init (projectile-mode)
-  :config (setq projectile-git-submodule-command ""))
+  :config (setq projectile-git-submodule-command "")
+  :bind ("C-x C-b" . projectile-switch-to-buffer))
 
 (progn ;     startup
   (message "Loading %s...done (%.3fs)" user-init-file
