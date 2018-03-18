@@ -39,7 +39,7 @@
      (load-theme 'solarized-light t))
 
 (use-package epkg
-  :defer t
+  :straight t
   :init (setq epkg-repository
               (expand-file-name "var/epkgs/" user-emacs-directory)))
 
