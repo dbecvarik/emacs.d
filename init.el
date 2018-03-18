@@ -43,6 +43,9 @@
   :init (setq epkg-repository
               (expand-file-name "var/epkgs/" user-emacs-directory)))
 
+(use-package smex
+  :straight t)
+
 (use-package custom
   :config
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -157,6 +160,9 @@
   :bind (("C-s" . swiper)
          ("M-x" . counsel-M-x)))
 
+(use-package markdown-mode
+  :straight t)
+
 (use-package elpy
   :straight t
   :init (elpy-enable)
@@ -168,7 +174,6 @@
                                elpy-module-highlight-indentation
                                elpy-module-yasnippet))
   (electric-pair-mode))
-
 
 (use-package counsel-projectile
   :straight t
