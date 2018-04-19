@@ -20,6 +20,12 @@
   (tool-bar-mode 0)
   (menu-bar-mode 0))
 
+(org-babel-do-load-languages 'org-babel-load-languages
+    '(
+        (sh . t)
+    )
+)
+
 (let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
       (bootstrap-version 3))
   (unless (file-exists-p bootstrap-file)
@@ -32,6 +38,7 @@
   (load bootstrap-file nil 'nomessage))
 
 (straight-use-package 'use-package)
+
 
 (use-package solarized-theme
    :straight t
@@ -168,12 +175,40 @@
   :init (elpy-enable)
   :config (setq elpy-rpc-backend "jedi"
                 elpy-modules '(elpy-module-sane-defaults
-                               elpy-module-company
                                elpy-module-eldoc
                                elpy-module-flymake
                                elpy-module-highlight-indentation
                                elpy-module-yasnippet))
   (electric-pair-mode))
+
+
+(use-package lsp-mode
+  :straight t
+  :defer t
+  :config (progn
+	    (add-hook 'python-mode-hook 'lsp-mode)
+	    (add-hook 'rust-mode-hook 'lsp-mode)
+	    ))
+
+(use-package lsp-ui
+  :straight t
+  :after lsp-mode
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  (add-hook 'lsp-mode-hook 'flycheck-mode))
+
+(use-package company-lsp
+  :straight t
+  :after company lsp-mode
+  :init
+  (push 'company-lsp company-backends))
+
+(use-package lsp-python
+  :straight t
+  :config(progn
+	   (add-hook 'python-mode-hook 'lsp-python-enable)
+           (add-hook 'python-mode-hook 'company-mode)))
+
 
 (use-package counsel-projectile
   :straight t
@@ -182,6 +217,11 @@
 (use-package company
   :straight t
   :config (setq company-minimum-prefix-length 1))
+
+
+(use-package company-quickhelp
+  :straight t
+  :config (company-quickhelp-mode))
 
 (use-package projectile
   :straight t
@@ -233,6 +273,22 @@
 (use-package flycheck
   :straight t
   :commands (flycheck-mod global-flycheck-mode))
+
+(use-package exwm
+  :straight t
+  :config (progn
+            (require 'exwm-systemtray)
+            (exwm-systemtray-enable)
+            (require 'exwm-randr)
+            (setq exwm-randr-workspace-output-plist '(4 "DP-2-1" 5 "DP-2-1" 6 "DP-2-1" 7 "DP-2-1" 8 "DP-2-1"))
+            (add-hook 'exwm-randr-screen-change-hook
+                      (lambda ()
+                        (start-process-shell-command
+                         "xrandr" nil "xrandr --output DP-2-1 --mode 1920x1200 --right-of eDP-1")))
+            (exwm-randr-enable)
+            (require 'exwm-config)
+            (exwm-config-default)))
+
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
