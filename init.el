@@ -22,7 +22,8 @@
 
 (org-babel-do-load-languages 'org-babel-load-languages
     '(
-        (sh . t)
+      (sh . t)
+      (python . t)
     )
 )
 
