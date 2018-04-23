@@ -288,7 +288,9 @@
                          "xrandr" nil "xrandr --output DP-2-1 --mode 1920x1200 --right-of eDP-1")))
             (exwm-randr-enable)
             (require 'exwm-config)
-            (exwm-config-default)))
+            (exwm-config-default)
+            (display-time)
+            (display-battery-mode)))
 
 
 ;; Local Variables:
