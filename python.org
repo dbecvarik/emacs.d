@@ -1,0 +1,19 @@
+
+** Enable testing via pytest
+
+
+#+BEGIN_SRC emacs-lisp
+(use-package pytest
+  :straight t)
+#+END_SRC
+
+
+
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-python
+  :straight t
+  :config(progn
+	   (add-hook 'python-mode-hook 'lsp-python-enable)
+           (add-hook 'python-mode-hook 'company-mode)))
+
+#+END_SRC
