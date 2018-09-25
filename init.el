@@ -12,7 +12,6 @@
   (setq package-enable-at-startup nil)
   (setq inhibit-startup-buffer-menu t)
   (setq inhibit-startup-screen t)
-  (setq inhibit-startup-echo-area-message "locutus")
   (setq initial-buffer-choice t)
   (setq initial-scratch-message "")
   (setq load-prefer-newer t)
@@ -20,13 +19,8 @@
   (tool-bar-mode 0)
   (menu-bar-mode 0))
 
-(org-babel-do-load-languages 'org-babel-load-languages
-    '(
-      (sh . t)
-      (python . t)
-    )
-)
 
+;; setup straight
 (let ((bootstrap-file (concat user-emacs-directory "straight/repos/straight.el/bootstrap.el"))
       (bootstrap-version 3))
   (unless (file-exists-p bootstrap-file)
@@ -40,25 +34,22 @@
 
 (straight-use-package 'use-package)
 
-
 (use-package solarized-theme
    :straight t
    :config
      (load-theme 'solarized-light t))
 
+(use-package org-journal
+  :straight t)
+
 (use-package epkg
   :straight t
   :init (setq epkg-repository
               (expand-file-name "var/epkgs/" user-emacs-directory)))
-
-(use-package smex
-  :straight t)
-
-(use-package custom
   :config
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (when (file-exists-p custom-file)
-    (load custom-file)))
+    (load custom-file))
 
 (use-package server
   :config (or (server-running-p) (server-mode)))
@@ -67,7 +58,6 @@
   (message "Loading early birds...done (%.3fs)"
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
-
 
 (defvar --backup-directory (concat user-emacs-directory "backups"))
 (if (not (file-exists-p --backup-directory))
@@ -106,7 +96,6 @@
   :defer t
   :config (temp-buffer-resize-mode))
 
-
 (use-package magit
   :straight t
   :defer t
@@ -128,7 +117,6 @@
     (interactive)
     (kill-buffer)
     (jump-to-register :magit-fullscreen)))
-
 
 (use-package paren
   :config (show-paren-mode))
@@ -171,54 +159,10 @@
 (use-package markdown-mode
   :straight t)
 
-(use-package elpy
-  :straight t
-  :init (elpy-enable)
-  :config (setq elpy-rpc-backend "jedi"
-                elpy-modules '(elpy-module-sane-defaults
-                               elpy-module-eldoc
-                               elpy-module-flymake
-                               elpy-module-highlight-indentation
-                               elpy-module-yasnippet))
-  (electric-pair-mode))
-
-
-(use-package lsp-mode
-  :straight t
-  :defer t
-  :config (progn
-	    (add-hook 'python-mode-hook 'lsp-mode)
-	    (add-hook 'rust-mode-hook 'lsp-mode)
-	    ))
-
-(use-package lsp-ui
-  :straight t
-  :after lsp-mode
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  (add-hook 'lsp-mode-hook 'flycheck-mode))
-
-(use-package company-lsp
-  :straight t
-  :after company lsp-mode
-  :init
-  (push 'company-lsp company-backends))
-
-(use-package lsp-python
-  :straight t
-  :config(progn
-	   (add-hook 'python-mode-hook 'lsp-python-enable)
-           (add-hook 'python-mode-hook 'company-mode)))
-
-
-(use-package counsel-projectile
-  :straight t
-  :config (setq counsel-projectile-mode t))
 
 (use-package company
   :straight t
   :config (setq company-minimum-prefix-length 1))
-
 
 (use-package company-quickhelp
   :straight t
@@ -227,7 +171,9 @@
 (use-package projectile
   :straight t
   :init (projectile-mode)
-  :config (setq projectile-git-submodule-command "")
+  :config (progn
+            (setq projectile-git-submodule-command "")
+            (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
   :bind ("C-x C-b" . projectile-switch-to-buffer))
 
 (progn ;     startup
@@ -242,11 +188,11 @@
                                           before-user-init-time))))
             t))
 
-(progn ;     personalize
-  (let ((file (expand-file-name (concat (user-real-login-name) ".el")
-                                user-emacs-directory)))
-    (when (file-exists-p file)
-      (load file))))
+(use-package counsel-projectile
+  :straight t
+  :config (progn
+            (counsel-mode)
+            (counsel-projectile-mode)))
 
 ;; golang
 (use-package company-go
@@ -275,25 +221,61 @@
   :straight t
   :commands (flycheck-mod global-flycheck-mode))
 
-(use-package exwm
+(use-package undo-tree
+  :straight t)
+
+
+(use-package key-chord
+  :straight t)
+
+(use-package hydra
   :straight t
-  :config (progn
-            (require 'exwm-systemtray)
-            (exwm-systemtray-enable)
-            (require 'exwm-randr)
-            (setq exwm-randr-workspace-output-plist '(4 "DP-2-1" 5 "DP-2-1" 6 "DP-2-1" 7 "DP-2-1" 8 "DP-2-1"))
-            (add-hook 'exwm-randr-screen-change-hook
-                      (lambda ()
-                        (start-process-shell-command
-                         "xrandr" nil "xrandr --output DP-2-1 --mode 1920x1200 --right-of eDP-1")))
-            (exwm-randr-enable)
-            (require 'exwm-config)
-            (exwm-config-default)
-            (display-time)
-            (display-battery-mode)))
+  :config
+  (progn
+    (defhydra hydra-undo-tree (:hint nil)
+      "
+  _p_: undo  _n_: redo _s_: save _l_: load   "
+      ("p"   undo-tree-undo)
+      ("n"   undo-tree-redo)
+      ("s"   undo-tree-save-history)
+      ("l"   undo-tree-load-history)
+      ("u"   undo-tree-visualize "visualize" :color blue)
+      ("q"   nil "quit" :color blue))
+    
+    (global-set-key (kbd "C-x u") 'hydra-undo-tree/undo-tree-undo)
+   
+    (key-chord-define-global
+     "hh"
+     (defhydra hydra-error ()
+       "goto-error"
+       ("h" first-error "first")
+       ("j" next-error "next")
+       ("k" previous-error "prev")))))
 
 
+(use-package which-key
+  :straight t)
+
+(use-package god-mode
+  :straight t)
 ;; Local Variables:
 ;; indent-tabs-mode: nil
 ;; End:
 ;;; init.el ends here
+
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; load python org config
+(require 'org)
+
+(org-babel-load-file
+ (expand-file-name "lsp.org"
+                   user-emacs-directory))
+
+(org-babel-load-file
+ (expand-file-name "python.org"
+                   user-emacs-directory))
+
