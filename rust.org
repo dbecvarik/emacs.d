@@ -1,0 +1,11 @@
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-rust
+  :straight t
+  :config (progn
+  (with-eval-after-load 'lsp-mode
+  (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls"))
+  (add-hook 'rust-mode-hook 'lsp-rust-enable)
+  (add-hook 'rust-mode-hook 'flycheck-mode))))
+
+#+END_SRC
+

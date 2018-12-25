@@ -1,19 +1,28 @@
+* Python setup
+
+This module is reponsible for Python development bits.
 
 ** Enable testing via pytest
-
-
 #+BEGIN_SRC emacs-lisp
 (use-package pytest
-  :straight t)
+  :straight t
+  :bind (("C-c t a" . pytest-all)
+         ("C-c t m" . pytest-module)
+         ("C-c t ." . pytest-one)
+         ("C-c t d" . pytest-directory)
+         ("C-c t p a" . pytest-pdb-all)
+         ("C-c t p m" . pytest-pdb-module)
+         ("C-c t p ." . pytest-pdb-one)))
 #+END_SRC
 
 
 
+** Introduce Python lsp support
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-python
   :straight t
-  :config(progn
-	   (add-hook 'python-mode-hook 'lsp-python-enable)
-           (add-hook 'python-mode-hook 'company-mode)))
+  :config (progn
+  (add-hook 'python-mode-hook 'lsp-python-enable)
+  (add-hook 'python-mode-hook 'company-mode)))
 
 #+END_SRC

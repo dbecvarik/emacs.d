@@ -34,10 +34,8 @@
 
 (straight-use-package 'use-package)
 
-(use-package solarized-theme
-   :straight t
-   :config
-     (load-theme 'solarized-light t))
+(use-package poet-theme
+   :straight t)
 
 (use-package org-journal
   :straight t)
@@ -272,10 +270,18 @@
 (require 'org)
 
 (org-babel-load-file
+ (expand-file-name "org-mode.org"
+                   user-emacs-directory))
+
+(org-babel-load-file
  (expand-file-name "lsp.org"
                    user-emacs-directory))
 
 (org-babel-load-file
  (expand-file-name "python.org"
+                   user-emacs-directory))
+
+(org-babel-load-file
+ (expand-file-name "rust.org"
                    user-emacs-directory))
 
