@@ -1,11 +1,12 @@
 * Orgmode setup
-
+  
 ** Bullets
+
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :straight t
     :config
     (setq org-bullets-bullet-list
 	  '("◉" "○"))
-	  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+	  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 #+END_SRC

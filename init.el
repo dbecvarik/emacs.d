@@ -35,7 +35,11 @@
 (straight-use-package 'use-package)
 
 (use-package poet-theme
-   :straight t)
+  :straight t (poet-theme :type git
+                          :host github
+                          :repo "kunalb/poet"
+                          :fork (:host github :repo "dbecvarik/poet")))
+
 
 (use-package org-journal
   :straight t)
