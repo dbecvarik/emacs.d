@@ -41,9 +41,6 @@
                           :fork (:host github :repo "dbecvarik/poet")))
 
 
-(use-package org-journal
-  :straight t)
-
 (use-package epkg
   :straight t
   :init (setq epkg-repository
@@ -123,27 +120,6 @@
 (use-package paren
   :config (show-paren-mode))
 
-(use-package prog-mode
-  :config (global-prettify-symbols-mode)
-  (defun indicate-buffer-boundaries-left ()
-    (setq indicate-buffer-boundaries 'left))
-  (add-hook 'prog-mode-hook #'indicate-buffer-boundaries-left))
-
-(use-package recentf
-  :demand t
-  :config (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:"))
-
-(use-package savehist
-  :config (savehist-mode))
-
-(use-package saveplace
-  :config (save-place-mode))
-
-(use-package simple
-  :config (column-number-mode))
-
-(progn ;    `text-mode'
-  (add-hook 'text-mode-hook #'indicate-buffer-boundaries-left))
 
 (use-package tramp
   :defer t
@@ -160,7 +136,6 @@
 
 (use-package markdown-mode
   :straight t)
-
 
 (use-package company
   :straight t
@@ -283,9 +258,5 @@
 
 (org-babel-load-file
  (expand-file-name "python.org"
-                   user-emacs-directory))
-
-(org-babel-load-file
- (expand-file-name "rust.org"
                    user-emacs-directory))
 

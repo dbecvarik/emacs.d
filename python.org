@@ -18,11 +18,4 @@ This module is reponsible for Python development bits.
 
 
 ** Introduce Python lsp support
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-python
-  :straight t
-  :config (progn
-  (add-hook 'python-mode-hook 'lsp-python-enable)
-  (add-hook 'python-mode-hook 'company-mode)))
 
-#+END_SRC
